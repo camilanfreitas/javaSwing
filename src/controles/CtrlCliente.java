@@ -6,67 +6,42 @@ import entidades.Cliente;
 
 public class CtrlCliente {
 
-	private static String user;
+	private static String user = "admin";
 	private static Cliente c;
+
+	public static boolean preparaAlteracao(Cliente cl, String cpfAnterior) throws ClassNotFoundException, SQLException{
+
+		cl = insereUser(cl);
+
+		boolean b = Cliente.atualizaDados(cl, cpfAnterior);
+
+		return b;
+	}
 
 	public static boolean preparaCadastro(Cliente cl) throws ClassNotFoundException, SQLException{
 
-		user = "admin";
-		
-		cl.setAtendente(user);
-		
+		cl = insereUser(cl);
+
 		boolean b = Cliente.guardarDados(cl);
 
 		return b;
 	}
 
-	public static Cliente preparaPesquisa(String documento) throws ClassNotFoundException, SQLException {
+	public static Cliente preparaPesquisa(String documento){
 
-		ResultSet rs = Cliente.pesquisaCliente(documento);
-
-		c = new Cliente();
-		c = null;
-
-		if (rs.isBeforeFirst()) { 
-			rs.next();
-
-			c.setCpf(rs.getString("cpf"));
-			c.setNome(rs.getString("nome") );
-			c.setTipo(rs.getInt("tipo"));
-			c.setPrestacaoTerceiro(rs.getDouble("prestacaoTerceiro"));
-			c.setRenda(rs.getDouble("renda"));
-			c.setEmail(rs.getString("email"));
-			c.setCep(rs.getInt("cep"));
-			c.setLogradouro(rs.getString("logradouro"));
-			c.setNumero(rs.getInt("numero"));
-			c.setComplemento(rs.getString("complemento"));
-			c.setBairro(rs.getString("bairro"));
-			c.setCidade(rs.getString("cidade"));
-			c.setEstado(rs.getString("estado"));
-			c.setAtendente(rs.getString("atendente"));
-
-		} 
+		Cliente c  = Cliente.pesquisaCliente(documento);
 
 		return c;
 
 	}
 
-	public static String getUser() {
-		return user;
-	}
+	private static Cliente insereUser(Cliente c) {
 
-	public static void setUser(String user) {
-		CtrlCliente.user = user;
-	}
+		c.setAtendente(user);
 
-	public static Cliente getC() {
 		return c;
 	}
 
-	public static void setC(Cliente c) {
-		CtrlCliente.c = c;
-	}
 
-	
-	
+
 }

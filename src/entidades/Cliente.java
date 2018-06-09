@@ -22,12 +22,27 @@ public class Cliente {
 	private String estado;
 	private String atendente;
 
-	public static boolean guardarDados(Cliente c) throws ClassNotFoundException, SQLException {
+	public static boolean atualizaDados(Cliente c, String cpfAnterior) throws ClassNotFoundException, SQLException {
 
 		Connection con = ConectaBD.conectaAoBanco();
 
-		String comando = "INSERT INTO cliente(cpf, nome, tipo, prestacaoTerceiro, renda, email, cep, logradouro, numero, complemento, bairro, cidade, estado, atendente)"
-				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String comando = "UPDATE cliente"
+				+ "SET cpf = (?), "
+				+ "nome = (?), "
+				+ "tipo = (?), "
+				+ "prestacaoTerceiro = (?), "
+				+ "renda = (?), "
+				+ "email = (?), "
+				+ "cep = (?), "
+				+ "logradouro = (?), "
+				+ "numero = (?), "
+				+ "complemento = (?), "
+				+ "bairro = (?), "
+				+ "cidade = (?), "
+				+ "estado = (?), "
+				+ "atendente = (?)"
+				+ "WHERE cpf = (?)";
+
 		PreparedStatement instrucao = con.prepareStatement(comando);
 
 		instrucao.setString(1, c.getCpf());
@@ -44,28 +59,103 @@ public class Cliente {
 		instrucao.setString(12, c.getCidade());
 		instrucao.setString(13, c.getEstado());
 		instrucao.setString(14, c.getAtendente());
+		instrucao.setString(15, cpfAnterior);
 
 		instrucao.executeUpdate();
 
 		return true;		
 	}
 
-	public static ResultSet pesquisaCliente(String documento) throws ClassNotFoundException, SQLException {
+	public static boolean guardarDados(Cliente c){
 
-		String comando = "SELECT * FROM cliente WHERE cpf like (?)";
+		boolean status=false;
 
-		Connection con = ConectaBD.conectaAoBanco();
+		try {
 
-		PreparedStatement instrucao = con.prepareStatement(comando);
+			Connection con = ConectaBD.conectaAoBanco();
 
-		instrucao.setString(1, documento);
+			String comando = "INSERT INTO cliente  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			PreparedStatement instrucao = con.prepareStatement(comando);
 
-		ResultSet rs = instrucao.executeQuery();
+			instrucao.setString(1, c.getCpf());
+			instrucao.setString(2, c.getNome());
+			instrucao.setInt(3, c.getTipo());
+			instrucao.setDouble(4,  c.getPrestacaoTerceiro());
+			instrucao.setDouble(5, c.getRenda());
+			instrucao.setString(6, c.getEmail());
+			instrucao.setInt(7, c.getCep());
+			instrucao.setString(8, c.getLogradouro());
+			instrucao.setInt(9, c.getNumero());
+			instrucao.setString(10, c.getComplemento());
+			instrucao.setString(11, c.getBairro());
+			instrucao.setString(12, c.getCidade());
+			instrucao.setString(13, c.getEstado());
+			instrucao.setString(14, c.getAtendente());
 
+			int affectedRows = instrucao.executeUpdate();
 
-		con.close();			
+			// check the affected rows 
+			if (affectedRows > 0) {             
+				status=true;
+			}
 
-		return rs;	
+		} catch (ClassNotFoundException e) {
+			System.out.println(e.getMessage()+ " | ClassNotFoundException");
+		} catch (SQLException e) {
+			System.out.println(e.getMessage()+ " | SQLException");
+		}
+
+		return status;		
+	}
+
+	public static Cliente pesquisaCliente(String documento){
+
+		String comando = "SELECT * FROM cliente WHERE cpf = (?)";
+
+		Connection con;
+		Cliente c = new Cliente();
+		
+		try {
+			con = ConectaBD.conectaAoBanco();
+			
+
+			PreparedStatement instrucao = con.prepareStatement(comando);
+
+			instrucao.setString(1, documento);
+
+			ResultSet rs = instrucao.executeQuery();
+			
+			System.out.println("pesquisou");
+			
+			c = null;
+
+			if (rs.isBeforeFirst()) { 
+				while(rs.next()) {
+					c.setCpf(rs.getString(1));
+					c.setNome(rs.getString("nome") );
+					c.setTipo(rs.getInt("tipo"));
+					c.setPrestacaoTerceiro(rs.getDouble("prestacaoTerceiro"));
+					c.setRenda(rs.getDouble("renda"));
+					c.setEmail(rs.getString("email"));
+					c.setCep(rs.getInt("cep"));
+					c.setLogradouro(rs.getString("logradouro"));
+					c.setNumero(rs.getInt("numero"));
+					c.setComplemento(rs.getString("complemento"));
+					c.setBairro(rs.getString("bairro"));
+					c.setCidade(rs.getString("cidade"));
+					c.setEstado(rs.getString("estado"));
+					c.setAtendente(rs.getString("atendente"));
+				}				
+			} 
+			con.close();		
+						
+		} catch (ClassNotFoundException e) {
+			System.out.println(e.getMessage()+ " | ClassNotFoundException");
+		} catch (SQLException e) {
+			System.out.println(e.getMessage()+ " | SQLException");
+		}	
+
+		return c;	
 
 	}
 
