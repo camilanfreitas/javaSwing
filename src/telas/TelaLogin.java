@@ -4,15 +4,14 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import controles.CtrlLogin;
-import entidades.Atendente;
 
-public class Login {
+public class TelaLogin {
 
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 
 		fazerLogin();
-
+		
 	}
 
 	
