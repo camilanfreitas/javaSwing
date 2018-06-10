@@ -1,25 +1,60 @@
 package telas;
 
+import java.awt.EventQueue;
 import java.sql.SQLException;
 import java.util.Scanner;
+
+import javax.swing.JFrame;
 
 import controles.CtrlCliente;
 import entidades.Cliente;
 
 public class TelaCliente {
+
+	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					TelaCliente window = new TelaCliente();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+
+	public TelaCliente( ) {
+		initialize();
+	}
+	
+	public TelaCliente(String nome) {
+		setNomeAtendente(nome);
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
 	
 	private static String nomeAtendente;
 	private static String cpfClienteAtual;
 	private static Scanner leitor = new Scanner(System.in);
 	
-	public TelaCliente() {
-		
-	}
-	
-	public TelaCliente(String nome) throws ClassNotFoundException, SQLException {
-		setNomeAtendente(nome);
-		System.out.println("Atendente = "+getNomeAtendente());
-	}
 
 	public static void opcoes(){
 		
@@ -158,5 +193,8 @@ public class TelaCliente {
 	public static void setNomeAtendente(String nomeAtendente) {
 		TelaCliente.nomeAtendente = nomeAtendente;
 	}
+	
+	
+	
 
 }
