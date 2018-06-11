@@ -1,13 +1,10 @@
 package controles;
 
-import java.util.Scanner;
-
 import entidades.Atendente;
 import telas.TelaCliente;
 
 public class CtrlLogin {
 
-	private static Scanner leitor = new Scanner(System.in);
 	private static String nomeDoUser = null;
 
 	public static boolean cadastrarNovoLogin(Atendente a) {
@@ -19,8 +16,7 @@ public class CtrlLogin {
 
 	public static boolean validaUser(String user) {
 		
-		boolean valido = Atendente.validaNomeUser(user);
-		
+		boolean valido = Atendente.validaNomeUser(user);		
 		//Se true = o usuário existe / Se false = o usuário não existe
 		return valido;
 	}
@@ -41,7 +37,7 @@ public class CtrlLogin {
 
 	public static void abrirSistema() {
 
-		TelaCliente.opcoes();
+		TelaCliente.opcoes(getNomeDoUser());
 
 	}
 

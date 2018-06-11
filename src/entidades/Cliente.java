@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Cliente {
 
@@ -22,46 +23,98 @@ public class Cliente {
 	private String estado;
 	private String atendente;
 
-	public static boolean atualizaDados(Cliente c, String cpfAnterior) throws ClassNotFoundException, SQLException {
+	public static ArrayList <Cliente> retornaListaClientes(){
 
-		Connection con = ConectaBD.conectaAoBanco();
+		ArrayList <Cliente> cl = new ArrayList<>();
 
-		String comando = "UPDATE cliente"
-				+ "SET cpf = (?), "
-				+ "nome = (?), "
-				+ "tipo = (?), "
-				+ "prestacaoTerceiro = (?), "
-				+ "renda = (?), "
-				+ "email = (?), "
-				+ "cep = (?), "
-				+ "logradouro = (?), "
-				+ "numero = (?), "
-				+ "complemento = (?), "
-				+ "bairro = (?), "
-				+ "cidade = (?), "
-				+ "estado = (?), "
-				+ "atendente = (?)"
-				+ "WHERE cpf = (?)";
+		String comando = "SELECT nome, cpf, tipo FROM cliente ORDER BY nome";
 
-		PreparedStatement instrucao = con.prepareStatement(comando);
+		Connection con;
+		Cliente c = new Cliente();
 
-		instrucao.setString(1, c.getCpf());
-		instrucao.setString(2, c.getNome());
-		instrucao.setInt(3, c.getTipo());
-		instrucao.setDouble(4,  c.getPrestacaoTerceiro());
-		instrucao.setDouble(5, c.getRenda());
-		instrucao.setString(6, c.getEmail());
-		instrucao.setInt(7, c.getCep());
-		instrucao.setString(8, c.getLogradouro());
-		instrucao.setInt(9, c.getNumero());
-		instrucao.setString(10, c.getComplemento());
-		instrucao.setString(11, c.getBairro());
-		instrucao.setString(12, c.getCidade());
-		instrucao.setString(13, c.getEstado());
-		instrucao.setString(14, c.getAtendente());
-		instrucao.setString(15, cpfAnterior);
+		try {
+			con = ConectaBD.conectaAoBanco();			
 
-		instrucao.executeUpdate();
+			PreparedStatement instrucao = con.prepareStatement(comando);
+			ResultSet rs = instrucao.executeQuery();
+
+			System.out.println("pesquisou");
+
+			if (rs.isBeforeFirst()) { 
+				while(rs.next()) {
+					c.setCpf(rs.getString("nome"));
+					c.setNome(rs.getString("cpf") );
+					c.setTipo(rs.getInt("tipo"));
+
+					cl.add(c);
+				}				
+			} 
+			con.close();		
+
+		} catch (ClassNotFoundException e) {
+			System.out.println(e.getMessage()+ " | ClassNotFoundException");
+		} catch (SQLException e) {
+			System.out.println(e.getMessage()+ " | SQLException");
+		}	
+
+
+		return cl;
+
+	}
+
+	public static boolean atualizaDados(Cliente c, String cpfAnterior) {
+
+
+		
+		try {
+			Connection con = ConectaBD.conectaAoBanco();
+
+			String comando = "UPDATE cliente"
+					+ "SET cpf = (?), "
+					+ "nome = (?), "
+					+ "tipo = (?), "
+					+ "prestacaoTerceiro = (?), "
+					+ "renda = (?), "
+					+ "email = (?), "
+					+ "cep = (?), "
+					+ "logradouro = (?), "
+					+ "numero = (?), "
+					+ "complemento = (?), "
+					+ "bairro = (?), "
+					+ "cidade = (?), "
+					+ "estado = (?), "
+					+ "atendente = (?)"
+					+ "WHERE cpf = (?)";
+
+			PreparedStatement instrucao = con.prepareStatement(comando);
+
+			instrucao.setString(1, c.getCpf());
+			instrucao.setString(2, c.getNome());
+			instrucao.setInt(3, c.getTipo());
+			instrucao.setDouble(4,  c.getPrestacaoTerceiro());
+			instrucao.setDouble(5, c.getRenda());
+			instrucao.setString(6, c.getEmail());
+			instrucao.setInt(7, c.getCep());
+			instrucao.setString(8, c.getLogradouro());
+			instrucao.setInt(9, c.getNumero());
+			instrucao.setString(10, c.getComplemento());
+			instrucao.setString(11, c.getBairro());
+			instrucao.setString(12, c.getCidade());
+			instrucao.setString(13, c.getEstado());
+			instrucao.setString(14, c.getAtendente());
+			instrucao.setString(15, cpfAnterior);
+
+			instrucao.executeUpdate();
+			
+			con.close();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return true;		
 	}
@@ -114,20 +167,19 @@ public class Cliente {
 
 		Connection con;
 		Cliente c = new Cliente();
-		
+
 		try {
 			con = ConectaBD.conectaAoBanco();
-			
+
 
 			PreparedStatement instrucao = con.prepareStatement(comando);
 
 			instrucao.setString(1, documento);
 
 			ResultSet rs = instrucao.executeQuery();
-			
+
 			System.out.println("pesquisou");
-			
-			c = null;
+
 
 			if (rs.isBeforeFirst()) { 
 				while(rs.next()) {
@@ -148,7 +200,7 @@ public class Cliente {
 				}				
 			} 
 			con.close();		
-						
+
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.getMessage()+ " | ClassNotFoundException");
 		} catch (SQLException e) {

@@ -13,12 +13,13 @@ import entidades.Atendente;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class TelaLogin {
 
 	private JFrame frame;
 	private static JTextField textUsuario;
-	private static JTextField textSenha;
+	private static JPasswordField textSenha;
 
 	/**
 	 * Launch the application.
@@ -47,7 +48,7 @@ public class TelaLogin {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("OhBanks - Faça Login");
 		frame.setBounds(50, 50, 300, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -65,9 +66,9 @@ public class TelaLogin {
 		lblSenha.setBounds(52, 175, 46, 14);
 		frame.getContentPane().add(lblSenha);
 
-		textSenha = new JTextField();
+		textSenha = new JPasswordField();
 		textSenha.setBounds(52, 190, 183, 20);
-		frame.getContentPane().add(textSenha);
+		frame.getContentPane().add(textSenha);		
 		textSenha.setColumns(10);
 
 		JButton btnEntrar = new JButton("Entrar");
@@ -105,6 +106,8 @@ public class TelaLogin {
 		JLabel lblNoPossuiCadastro = new JLabel("N\u00E3o possui cadastro?");
 		lblNoPossuiCadastro.setBounds(52, 288, 183, 14);
 		frame.getContentPane().add(lblNoPossuiCadastro);
+		
+		
 	}
 
 
@@ -143,7 +146,7 @@ public class TelaLogin {
 			//Aciona o controle para abrir o controle
 			CtrlLogin.abrirSistema();
 		}else {
-			System.out.println("O Login falhou, tente novamente ou cadastre um novo usuário");
+			JOptionPane.showMessageDialog(null, "O Login falhou, tente novamente ou cadastre um novo usuário");
 		}
 	}
 
@@ -152,8 +155,6 @@ public class TelaLogin {
 	}
 
 	public static String getTextSenha() {
-		return textSenha.getText();
+		return String.valueOf(textSenha.getPassword());
 	}
-
-
 }

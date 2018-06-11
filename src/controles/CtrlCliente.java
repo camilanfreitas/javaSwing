@@ -1,15 +1,22 @@
 package controles;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
+
 import entidades.Cliente;
 
 public class CtrlCliente {
 
 	private static String user = "admin";
-	private static Cliente c;
+	
+	public static String getUser() {
+		return user;
+	}
 
-	public static boolean preparaAlteracao(Cliente cl, String cpfAnterior) throws ClassNotFoundException, SQLException{
+	public static void setUser(String user) {
+		CtrlCliente.user = user;
+	}
+
+	public static boolean preparaAlteracao(Cliente cl, String cpfAnterior){
 
 		cl = insereUser(cl);
 
@@ -17,8 +24,18 @@ public class CtrlCliente {
 
 		return b;
 	}
+	
+	public static ArrayList<Cliente> buscaClientes(){
+		
+		ArrayList <Cliente> cl = new ArrayList<>();
+		
+		cl = Cliente.retornaListaClientes();
+		
+		return cl;
+		
+	}
 
-	public static boolean preparaCadastro(Cliente cl) throws ClassNotFoundException, SQLException{
+	public static boolean preparaCadastro(Cliente cl){
 
 		cl = insereUser(cl);
 
