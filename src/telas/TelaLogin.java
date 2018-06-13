@@ -17,7 +17,7 @@ import javax.swing.JPasswordField;
 
 public class TelaLogin {
 
-	private JFrame frame;
+	private static JFrame frame;
 	private static JTextField textUsuario;
 	private static JPasswordField textSenha;
 
@@ -29,7 +29,7 @@ public class TelaLogin {
 			public void run() {
 				try {
 					TelaLogin window = new TelaLogin();
-					window.frame.setVisible(true);
+					TelaLogin.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -49,7 +49,7 @@ public class TelaLogin {
 	 */
 	private void initialize() {
 		frame = new JFrame("OhBanks - Faça Login");
-		frame.setBounds(50, 50, 300, 500);
+		frame.setBounds(325, 125, 300, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -139,12 +139,18 @@ public class TelaLogin {
 	//Método de Fazer Login
 	private static void fazerLogin(){
 
+		Atendente a = new Atendente();
+		
+		a.setLogin(getTextUsuario());
+		a.setSenha(getTextSenha());
+		
 		//Aciona o controle para tentar o Login
-		boolean userValido = CtrlLogin.tentarLogin(getTextUsuario(), getTextSenha());
+		boolean userValido = CtrlLogin.tentarLogin(a);
 
 		if(userValido) {
 			//Aciona o controle para abrir o controle
 			CtrlLogin.abrirSistema();
+			frame.dispose();
 		}else {
 			JOptionPane.showMessageDialog(null, "O Login falhou, tente novamente ou cadastre um novo usuário");
 		}

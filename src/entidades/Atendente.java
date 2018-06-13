@@ -27,9 +27,7 @@ public class Atendente {
 			} 
 
 			con.close();	
-		} catch (ClassNotFoundException e) {
-			System.out.println(e.getMessage());
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
 				
@@ -61,16 +59,14 @@ public class Atendente {
 				return true;
 			}
 
-		} catch (ClassNotFoundException e) {
-			System.out.println(e.getMessage()+ " | ClassNotFoundException");
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			System.out.println(e.getMessage()+ " | SQLException");
 		}
 
 		return false;
 	}
 
-	public static String  validaUsuario (String login, String senha){
+	public static String  validaUsuario (Atendente a){
 
 
 		String comando = "SELECT nome FROM atendente WHERE  login = (?) AND senha = (?)";
@@ -81,8 +77,8 @@ public class Atendente {
 
 			PreparedStatement instrucao = con.prepareStatement(comando);
 
-			instrucao.setString(1, login);
-			instrucao.setString(2, senha);
+			instrucao.setString(1, a.getLogin());
+			instrucao.setString(2, a.getSenha());
 
 			ResultSet rs = instrucao.executeQuery();
 
@@ -93,9 +89,7 @@ public class Atendente {
 			} 
 
 			con.close();	
-		} catch (ClassNotFoundException e) {
-			System.out.println(e.getMessage());
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
 

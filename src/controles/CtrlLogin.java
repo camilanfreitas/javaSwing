@@ -5,7 +5,7 @@ import telas.TelaCliente;
 
 public class CtrlLogin {
 
-	private static String nomeDoUser = null;
+	private static Atendente at = new Atendente();
 
 	public static boolean cadastrarNovoLogin(Atendente a) {
 		//Chama o método de Atendente que escreve no banco
@@ -21,34 +21,28 @@ public class CtrlLogin {
 		return valido;
 	}
 
-	public static boolean  tentarLogin(String user, String senha){
+	public static boolean  tentarLogin(Atendente a){
+		
+		at = a;
+		
 		//Chama o método de Atendente que válida se o user existe
-		String nome = Atendente.validaUsuario(user, senha);
+		String nome = Atendente.validaUsuario(a);
 
 		//Se torna vazio = user não existe
 		if(nome == null) {
 			return false;
 		}
 
-		setNomeDoUser(nome);
+		at.setNome(nome);
 		return true;
 
 	}
 
 	public static void abrirSistema() {
 
-		TelaCliente.opcoes(getNomeDoUser());
+		TelaCliente.iniciaTela(at);
 
 	}
-
-	public static String getNomeDoUser() {
-		return nomeDoUser;
-	}
-
-	public static void setNomeDoUser(String nomeDoUser) {
-		CtrlLogin.nomeDoUser = nomeDoUser;
-	}
-
 
 
 }

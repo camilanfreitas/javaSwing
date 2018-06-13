@@ -6,19 +6,41 @@ import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import controles.CtrlCliente;
+import entidades.Atendente;
 import entidades.Cliente;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.awt.event.ActionEvent;
+import javax.swing.JSeparator;
+import javax.swing.JComboBox;
+import java.awt.Component;
+import javax.swing.Box;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 public class TelaCliente {
 
-	private JFrame frame;
+	private static JFrame frame;
+
+
+	private static Atendente at;
+	private static String cpfClienteAtual;
+	private static Scanner leitor = new Scanner(System.in);	
+	private static JFormattedTextField textPesquisaCpf;
+	private static JButton btnCadastrarNovoCliente;
+	private static JLabel lblNome;
+	private static JTextField textField;
+	private static JTextField textCpf;
+	private static JLabel lblCategoria;
+	private static JTextField textRenda;
 
 	/**
 	 * Launch the application.
@@ -41,187 +63,106 @@ public class TelaCliente {
 	 */
 
 	public TelaCliente( ) {
+		Atendente a = new Atendente();
+		a.setNome("Camila");
+		at=a;
 		initialize();
 	}
 
-	public TelaCliente(String nome) {
-		setNomeAtendente(nome);
-		initialize();
+	public static void iniciaTela(Atendente a) {
+		at = a;
+		main(null);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private static void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 584, 455);
+		frame.setBounds(50, 50, 900, 650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JLabel lblProcurarPorUm = new JLabel("Pesquisar por um Cliente (CPF)");
-		lblProcurarPorUm.setBounds(25, 38, 225, 14);
-		frame.getContentPane().add(lblProcurarPorUm);
+		JLabel lblWelcome = new JLabel("Ol\u00E1 "+at.getNome()+ ", o que deseja fazer?");
+		lblWelcome.setBounds(10, 92, 302, 14);
+		frame.getContentPane().add(lblWelcome);
 		
-		textPesquisaCpf = new JTextField();
-		textPesquisaCpf.setBounds(25, 52, 136, 23);
+		
+		textPesquisaCpf = new JFormattedTextField();
+		 try{
+	           javax.swing.text.MaskFormatter format_textField4 = new javax.swing.text.MaskFormatter("###.###.###-##");
+	           textPesquisaCpf = new javax.swing.JFormattedTextField(format_textField4);
+	        }catch (Exception e){
+	        	System.out.println(e.getMessage());
+	        }		
+		textPesquisaCpf.setBounds(572, 88, 131, 23);
 		frame.getContentPane().add(textPesquisaCpf);
 		textPesquisaCpf.setColumns(10);
-		
-		JButton btnPesquisar = new JButton("Pesquisar");
+
+		JButton btnPesquisar = new JButton("Pesquisar Cliente");
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				if(!textPesquisaCpf.getText().equals("")) {
 					pesquisaCliente(textPesquisaCpf.getText());
 				}else {
 					JOptionPane.showMessageDialog(null, "Digite um CPF");
 				}
-				
-				
-				
 			}
 		});
-		btnPesquisar.setBounds(161, 52, 110, 23);
+		btnPesquisar.setBounds(714, 88, 160, 23);
 		frame.getContentPane().add(btnPesquisar);
-		
+
 		btnCadastrarNovoCliente = new JButton("Cadastrar Novo Cliente");
-		btnCadastrarNovoCliente.setBounds(413, 52, 128, 23);
+		btnCadastrarNovoCliente.setBounds(335, 88, 189, 23);
 		frame.getContentPane().add(btnCadastrarNovoCliente);
+
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 122, 864, 2);
+		frame.getContentPane().add(separator);
+
+		lblCategoria = new JLabel("Categoria:");
+		lblCategoria.setBounds(10, 149, 70, 14);
+		frame.getContentPane().add(lblCategoria);
+
+		JComboBox<String> comboBoxTipo = new JComboBox<String>();
+		comboBoxTipo.addItem("1 - Funcionário Público");
+		comboBoxTipo.addItem("2 - Aposentado");
+		comboBoxTipo.addItem("3 - Pensionista");
+		comboBoxTipo.setBounds(73, 146, 189, 20);
+		frame.getContentPane().add(comboBoxTipo);
+
+		JLabel lblCpf = new JLabel("CPF:");
+		lblCpf.setBounds(271, 152, 28, 14);
+		frame.getContentPane().add(lblCpf);
+
+		textCpf = new JTextField();
+		 try{
+	           javax.swing.text.MaskFormatter format_textField4 = new javax.swing.text.MaskFormatter("###.###.###-##");
+	           textCpf = new javax.swing.JFormattedTextField(format_textField4);
+	        }catch (Exception e){
+	        	System.out.println(e.getMessage());
+	        }
+		textCpf.setBounds(309, 149, 131, 20);
+		frame.getContentPane().add(textCpf);
+		textCpf.setColumns(10);
 		
+		lblNome = new JLabel("Nome:");
+		lblNome.setBounds(451, 152, 46, 14);
+		frame.getContentPane().add(lblNome);
+
+		textField = new JTextField();
+		textField.setBounds(493, 149, 381, 20);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
 		
-
+		textRenda = new JTextField();
+		 try{
+	           javax.swing.text.MaskFormatter format_textField4 = new javax.swing.text.MaskFormatter("#.###.###,##");
+	        }catch (Exception e){
+	        	System.out.println(e.getMessage());
+	        }
 		
-
-
-
-	}
-
-	private DefaultTableModel modeloTable;
-
-	private void preencherJtableCidade() {
-		//Aqui carrego minha lista
-		ArrayList <Cliente> listaClientes = CtrlCliente.buscaClientes();
-		modeloTable = new DefaultTableModel();
-
-		//Aqui verifico se a jTable tem algum registo se tiver eu deleto
-		while (modeloTable.getRowCount() > 0) {
-			modeloTable.removeRow(0);
-		}
-
-		//Aqui eu adiciono cada linha da lista na jTable
-		for (Cliente cliente : listaClientes) {
-			System.out.println(cliente.getNome()+", "+cliente.getCpf()+", "+cliente.getTipo());
-		}
-	}
-
-
-
-
-
-
-
-
-	private static String nomeAtendente;
-	private static String cpfClienteAtual;
-	private static Scanner leitor = new Scanner(System.in);	
-	private JTextField textPesquisaCpf;
-	private JButton btnCadastrarNovoCliente;
-
-	public static void opcoes(String user){
-
-		Cliente cl;
-		boolean b = false;		
-		setCpfClienteAtual("123123");
-		setNomeAtendente(user);
-		CtrlCliente.setUser(user);
-
-		int op=0;
-
-		do{
-			System.out.println("1-Pesquisar");			
-			System.out.println("2-Gravar");
-			System.out.println("3-Atualizar");
-			op=leitor.nextInt();
-
-			switch (op) {
-			case 1:
-
-				System.out.println("Digite o CPF");
-				String cpf = leitor.next();
-
-				pesquisaCliente(cpf);
-
-				break;
-
-			case 2:
-
-
-				cl = new Cliente();
-
-				System.out.println("CPF: ");		
-				cl.setCpf(leitor.next()	);
-				System.out.println("Nome: ");
-				cl.setNome(leitor.next());
-				cl.setBairro("Jd Vitoria");
-				cl.setCep(74748456);
-				cl.setCidade("Goiania");
-				cl.setComplemento(null);
-				cl.setEmail(null);
-				cl.setEstado("GO");
-				cl.setLogradouro("Rua A");
-				cl.setNumero(2);
-				cl.setPrestacaoTerceiro(0);
-				cl.setRenda(3000.50);
-				cl.setTipo(2);
-
-				//boolean b = Cliente.atualizaDados(cl, getCpfClienteAtual());
-
-
-
-
-				b = CtrlCliente.preparaCadastro(cl);
-
-
-				if(b) {
-					System.out.println("Gravou");
-				}else {
-					System.out.println("Nao gravou");
-				}
-
-				break;
-
-
-			case 3:
-
-
-				cl = new Cliente();
-
-				cl.setCpf("111111111");
-				cl.setNome("Joao");
-				cl.setBairro("Jd Vitoria");
-				cl.setCep(74748456);
-				cl.setCidade("Goiania");
-				cl.setComplemento(null);
-				cl.setEmail(null);
-				cl.setEstado("GO");
-				cl.setLogradouro("Rua A");
-				cl.setNumero(2);
-				cl.setPrestacaoTerceiro(0);
-				cl.setRenda(3000.50);
-				cl.setTipo(2);
-
-
-				b = Cliente.atualizaDados(cl, getCpfClienteAtual());
-
-
-				break;
-			default:
-				break;
-			}
-
-		}while(op!=0);
-
-
 	}
 
 	public static String pesquisaCliente (String cpf) {
@@ -236,22 +177,5 @@ public class TelaCliente {
 			return "";
 		}
 
-	}
-
-
-	public static String getCpfClienteAtual() {
-		return cpfClienteAtual;
-	}
-
-	public static void setCpfClienteAtual(String cpfClienteAtual) {
-		TelaCliente.cpfClienteAtual = cpfClienteAtual;
-	}
-
-	public static String getNomeAtendente() {
-		return nomeAtendente;
-	}
-
-	public static void setNomeAtendente(String nomeAtendente) {
-		TelaCliente.nomeAtendente = nomeAtendente;
 	}
 }

@@ -51,10 +51,8 @@ public class Cliente {
 			} 
 			con.close();		
 
-		} catch (ClassNotFoundException e) {
-			System.out.println(e.getMessage()+ " | ClassNotFoundException");
-		} catch (SQLException e) {
-			System.out.println(e.getMessage()+ " | SQLException");
+		} catch (SQLException | ClassNotFoundException e) {
+			System.out.println(e.getMessage());
 		}	
 
 
@@ -108,10 +106,7 @@ public class Cliente {
 			
 			con.close();
 
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -152,9 +147,7 @@ public class Cliente {
 				status=true;
 			}
 
-		} catch (ClassNotFoundException e) {
-			System.out.println(e.getMessage()+ " | ClassNotFoundException");
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			System.out.println(e.getMessage()+ " | SQLException");
 		}
 
@@ -201,9 +194,7 @@ public class Cliente {
 			} 
 			con.close();		
 
-		} catch (ClassNotFoundException e) {
-			System.out.println(e.getMessage()+ " | ClassNotFoundException");
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			System.out.println(e.getMessage()+ " | SQLException");
 		}	
 
