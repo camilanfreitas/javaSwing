@@ -116,9 +116,9 @@ public class TelaLogin {
 		String nome, user, senha, confSenha;
 		
 		nome = JOptionPane.showInputDialog("Qual o seu nome completo: ");
-		user = JOptionPane.showInputDialog("Crie um nome de usuário: ");
+		user = JOptionPane.showInputDialog("Crie um nome de usuário: ");		
 		
-		while(CtrlLogin.validaUser(user)){
+		while(CtrlLogin.validaUser(user) || user.equals("")){
 			user = JOptionPane.showInputDialog("Este nome de usuário já existe, tente novamente ");
 		}
 		

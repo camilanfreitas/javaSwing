@@ -63,7 +63,7 @@ public class Cliente {
 	public static boolean atualizaDados(Cliente c, String cpfAnterior) {
 
 
-		
+
 		try {
 			Connection con = ConectaBD.conectaAoBanco();
 
@@ -103,7 +103,7 @@ public class Cliente {
 			instrucao.setString(15, cpfAnterior);
 
 			instrucao.executeUpdate();
-			
+
 			con.close();
 
 		} catch (SQLException | ClassNotFoundException e) {
@@ -170,9 +170,6 @@ public class Cliente {
 			instrucao.setString(1, documento);
 
 			ResultSet rs = instrucao.executeQuery();
-
-			System.out.println("pesquisou");
-
 
 			if (rs.isBeforeFirst()) { 
 				while(rs.next()) {
@@ -254,6 +251,10 @@ public class Cliente {
 		return cep;
 	}
 
+	public String getCepText() {
+		return String.valueOf(cep);
+	}
+
 	public void setCep(int cep) {
 		this.cep = cep;
 	}
@@ -268,6 +269,10 @@ public class Cliente {
 
 	public int getNumero() {
 		return numero;
+	}
+
+	public String getNumeroText() {
+		return String.valueOf(numero);
 	}
 
 	public void setNumero(int numero) {
