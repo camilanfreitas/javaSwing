@@ -251,10 +251,6 @@ public class Cliente {
 		return cep;
 	}
 
-	public String getCepText() {
-		return String.valueOf(cep);
-	}
-
 	public void setCep(int cep) {
 		this.cep = cep;
 	}
@@ -269,10 +265,6 @@ public class Cliente {
 
 	public int getNumero() {
 		return numero;
-	}
-
-	public String getNumeroText() {
-		return String.valueOf(numero);
 	}
 
 	public void setNumero(int numero) {
