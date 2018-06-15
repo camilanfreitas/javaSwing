@@ -61,11 +61,12 @@ public class TelaSimulacao {
 
 	public TelaSimulacao() {
 		initialize();
+		preencheCliente();
 	}
 
 	public static void iniciaTela(Cliente c, Atendente a) {
 		cl = c;
-		at = a;
+		at = a;		
 		main(null);
 	}
 
@@ -184,8 +185,6 @@ public class TelaSimulacao {
 		lblSistemaPrice.setBounds(466, 235, 230, 14);
 		frame.getContentPane().add(lblSistemaPrice);
 
-
-
 		JPanel panelEmprest = new JPanel();
 		panelEmprest.setBorder(BorderFactory.createTitledBorder("EMPRESTIMO")); 
 		panelEmprest.setBounds(10, 214, 864, 338);
@@ -239,16 +238,33 @@ public class TelaSimulacao {
 		frame.getContentPane().add(btnNewButton);
 
 	}
+	
+	private static void preencheCliente() {
+		
+		textNome.setText(cl.getNome());
+		textNome.setEditable(false);
+		textCpf.setText(cl.getCpf());
+		textCpf.setEditable(false);
+		textRenda.setText(String.valueOf(cl.getRenda()));
+		textRenda.setEditable(false);
+		textMargem.setText(String.valueOf(cl.getPrestacaoTerceiro()));
+		textMargem.setEditable(false);
+		if(cl.getTipo() == 1) {
+			comboBoxTipo.setSelectedItem("1 - Funcionário Público");
+		}else if(cl.getTipo() == 2) {
+			comboBoxTipo.setSelectedItem("2 - Aposentado"); 
+		}else {
+			comboBoxTipo.setSelectedItem("3 - Pensionista");
+		}
+		comboBoxTipo.setEnabled(false);
+		
+	}
 
 	private static Tabela criarTabela (Emprestimo e, int width, int height){
 
-		Tabela t = new Tabela();
-
-		
+		Tabela t = new Tabela();		
 
 		t = new Tabela (e, width, height);
-
-
 
 		return t;
 

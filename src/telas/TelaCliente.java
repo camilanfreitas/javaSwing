@@ -290,41 +290,7 @@ public class TelaCliente {
 		lblCamposObr.setBounds(216, 499, 354, 14);
 		frame.getContentPane().add(lblCamposObr);
 
-		JButton btnNovaSimulacao = new JButton("Simular Empréstimo");
-		btnNovaSimulacao.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-				//falta completar metodo validador de dados
-				if(!textNome.getText().equals("")) {
-					Cliente cl = new Cliente();
-
-					cl.setNome(textNome.getText());
-					cl.setCpf(textCpf.getText());
-					cl.setTelefone(textTelefone.getText());
-					cl.setLogradouro(textEndereco.getText());
-					cl.setNumero(Integer.parseInt(textNum.getText()));
-					cl.setComplemento(textCompl.getText());		
-					cl.setCep(Integer.parseInt(textCep.getText()));
-					cl.setCidade(textCidade.getText());
-					cl.setBairro(textBairro.getText());
-					cl.setEmail(textEmail.getText());
-					cl.setRenda(Double.parseDouble(textRenda.getText()));
-					cl.setPrestacaoTerceiro(Double.parseDouble(textMargem.getText()));
-					cl.setEstado(comboBoxEstado.getSelectedItem().toString());
-					cl.setAtendente(at.getLogin());
-					
-					CtrlCliente.criarSimulacao(cl, at);
-					frame.dispose();
-				}else {
-					JOptionPane.showMessageDialog(null, "É necessário um cadastro de cliente para realizar uma simulação."
-													+ "\nPesquise um cliente ou cadastre um antes de continuar.");
-				}
-				
-				
-				
-			}
-		});
+		
 
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
@@ -370,6 +336,50 @@ public class TelaCliente {
 		});
 		btnApagar.setBounds(505, 524, 111, 23);
 		frame.getContentPane().add(btnApagar);
+		
+		
+		JButton btnNovaSimulacao = new JButton("Simular Empréstimo");
+		btnNovaSimulacao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				//falta completar metodo validador de dados
+				if(!textNome.getText().equals("")) {
+					Cliente cl = new Cliente();
+
+					cl.setNome(textNome.getText());
+					cl.setCpf(textCpf.getText());
+					cl.setTelefone(textTelefone.getText());
+					cl.setLogradouro(textEndereco.getText());
+					cl.setNumero(Integer.parseInt(textNum.getText()));
+					cl.setComplemento(textCompl.getText());		
+					cl.setCep(Integer.parseInt(textCep.getText()));
+					cl.setCidade(textCidade.getText());
+					cl.setBairro(textBairro.getText());
+					cl.setEmail(textEmail.getText());
+					cl.setRenda(Double.parseDouble(textRenda.getText()));
+					cl.setPrestacaoTerceiro(Double.parseDouble(textMargem.getText()));
+					cl.setEstado(comboBoxEstado.getSelectedItem().toString());
+					cl.setAtendente(at.getLogin());
+					if(comboBoxTipo.getSelectedItem().toString().equals("1 - Funcionário Público")) {
+						cl.setTipo(1);
+					}else if(comboBoxTipo.getSelectedItem().toString().equals("2 - Aposentado")) {
+						cl.setTipo(2);
+					}else {
+						cl.setTipo(3);
+					}
+					
+					CtrlCliente.criarSimulacao(cl, at);
+					frame.dispose();
+				}else {
+					JOptionPane.showMessageDialog(null, "É necessário um cadastro de cliente para realizar uma simulação."
+													+ "\nPesquise um cliente ou cadastre um antes de continuar.");
+				}
+				
+				
+				
+			}
+		});
 		btnNovaSimulacao.setBounds(709, 577, 165, 23);
 		frame.getContentPane().add(btnNovaSimulacao);
 
@@ -462,7 +472,6 @@ public class TelaCliente {
 	}
 
 	private static void cadastraDados(){
-
 
 		Cliente cl = new Cliente();
 
