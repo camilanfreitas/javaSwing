@@ -2,7 +2,9 @@ package controles;
 
 import java.util.ArrayList;
 
+import entidades.Atendente;
 import entidades.Cliente;
+import telas.TelaSimulacao;
 
 public class CtrlCliente {
 
@@ -14,6 +16,12 @@ public class CtrlCliente {
 
 	public static void setUser(String user) {
 		CtrlCliente.user = user;
+	}
+	
+	public static void criarSimulacao(Cliente c, Atendente a) {
+		
+		TelaSimulacao.iniciaTela(c, a);
+		
 	}
 
 	public static boolean preparaAlteracao(Cliente cl, String cpfAnterior){

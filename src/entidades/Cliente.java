@@ -64,15 +64,12 @@ public class Cliente {
 			instrucao.setString(14, c.getAtendente());
 			instrucao.setString(15, c.getTelefone());
 			instrucao.setString(16, cpfAnterior);
-			
-			System.out.println("query = "+instrucao);
 
 			instrucao.executeUpdate();
 
 			con.close();
 
 		} catch (SQLException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -137,8 +134,6 @@ public class Cliente {
 			instrucao.setString(14, c.getEstado());
 			instrucao.setString(15, c.getAtendente());
 			
-			System.out.println(instrucao);
-
 			int affectedRows = instrucao.executeUpdate();
 
 			// check the affected rows 

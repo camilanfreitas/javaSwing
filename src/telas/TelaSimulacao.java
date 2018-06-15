@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
+import entidades.Atendente;
 import entidades.Cliente;
 import entidades.Emprestimo;
 import entidades.Tabela;
@@ -24,6 +25,7 @@ public class TelaSimulacao {
 	private static JFrame frame;
 
 	private static Cliente cl;
+	private static Atendente at;
 	private static JTextField textNome;
 	private static JTextField textCpf;
 	private static JTextField textRenda;
@@ -58,14 +60,12 @@ public class TelaSimulacao {
 	 */
 
 	public TelaSimulacao() {
-		Cliente a = new Cliente();
-		a.setNome("Camila");
-		cl=a;
 		initialize();
 	}
 
-	public static void iniciaTela(Cliente a) {
-		cl = a;
+	public static void iniciaTela(Cliente c, Atendente a) {
+		cl = c;
+		at = a;
 		main(null);
 	}
 
@@ -191,7 +191,7 @@ public class TelaSimulacao {
 		panelEmprest.setBounds(10, 214, 864, 338);
 		frame.getContentPane().add(panelEmprest);
 
-		JLabel lblValor = new JLabel("Valor:");
+		JLabel lblValor = new JLabel("Valor*");
 		lblValor.setBounds(20, 159, 46, 14);
 		frame.getContentPane().add(lblValor);
 
@@ -200,7 +200,7 @@ public class TelaSimulacao {
 		frame.getContentPane().add(textValor);
 		textValor.setColumns(10);
 
-		JLabel lblTaxa = new JLabel("Taxa");
+		JLabel lblTaxa = new JLabel("Taxa*");
 		lblTaxa.setBounds(121, 159, 46, 14);
 		frame.getContentPane().add(lblTaxa);
 
@@ -209,7 +209,7 @@ public class TelaSimulacao {
 		frame.getContentPane().add(textTaxa);
 		textTaxa.setColumns(10);
 
-		JLabel lblPrazo = new JLabel("Prazo");
+		JLabel lblPrazo = new JLabel("Prazo*");
 		lblPrazo.setBounds(285, 159, 46, 14);
 		frame.getContentPane().add(lblPrazo);
 
@@ -218,7 +218,7 @@ public class TelaSimulacao {
 		frame.getContentPane().add(textPrazo);
 		textPrazo.setColumns(10);
 
-		JLabel lblPeriodo = new JLabel("Per\u00EDodo");
+		JLabel lblPeriodo = new JLabel("Per\u00EDodo*");
 		lblPeriodo.setBounds(186, 159, 46, 14);
 		frame.getContentPane().add(lblPeriodo);
 
@@ -229,6 +229,8 @@ public class TelaSimulacao {
 		JButton btnNewButton = new JButton("Simular");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				
 
 
 			}
@@ -242,35 +244,9 @@ public class TelaSimulacao {
 
 		Tabela t = new Tabela();
 
-		Object[][] data = {
-				{"Kathy", "Smith", "Snowboarding", new Integer(5), new Boolean(false)},
-				{"John", "Doe", "Rowing", new Integer(3), new Boolean(true)},
-				{"Sue", "Black", "Knitting", new Integer(2), new Boolean(false)},
-				{"Jane", "White", "Speed reading", new Integer(20), new Boolean(true)},
-				{"Joe", "Brown", "Pool", new Integer(10), new Boolean(false)},
-				{"Kathy", "Smith", "Snowboarding", new Integer(5), new Boolean(false)},
-				{"John", "Doe", "Rowing", new Integer(3), new Boolean(true)},
-				{"Sue", "Black", "Knitting", new Integer(2), new Boolean(false)},
-				{"Jane", "White", "Speed reading", new Integer(20), new Boolean(true)},
-				{"Joe", "Brown", "Pool", new Integer(10), new Boolean(false)},
-				{"Kathy", "Smith", "Snowboarding", new Integer(5), new Boolean(false)},
-				{"John", "Doe", "Rowing", new Integer(3), new Boolean(true)},
-				{"Sue", "Black", "Knitting", new Integer(2), new Boolean(false)},
-				{"Jane", "White", "Speed reading", new Integer(20), new Boolean(true)},
-				{"Joe", "Brown", "Pool", new Integer(10), new Boolean(false)},
-				{"Kathy", "Smith", "Snowboarding", new Integer(5), new Boolean(false)},
-				{"John", "Doe", "Rowing", new Integer(3), new Boolean(true)},
-				{"Sue", "Black", "Knitting", new Integer(2), new Boolean(false)},
-				{"Jane", "White", "Speed reading", new Integer(20), new Boolean(true)},
-				{"Joe", "Brown", "Pool", new Integer(10), new Boolean(false)},
-				{"Kathy", "Smith", "Snowboarding", new Integer(5), new Boolean(false)},
-				{"John", "Doe", "Rowing", new Integer(3), new Boolean(true)},
-				{"Sue", "Black", "Knitting", new Integer(2), new Boolean(false)},
-				{"Jane", "White", "Speed reading", new Integer(20), new Boolean(true)},
-				{"Joe", "Brown", "Pool", new Integer(10), new Boolean(false)}
-		};
+		
 
-		t = new Tabela (data, width, height);
+		t = new Tabela (e, width, height);
 
 
 

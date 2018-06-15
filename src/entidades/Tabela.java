@@ -22,9 +22,39 @@ public class Tabela extends JPanel{
     	
     }
     
-    public Tabela(Object [][] data, int width, int height){
+    public Tabela(Emprestimo e, int width, int height){
 
     	String[] header = {"Período", "Saldo Inicial", "Juros", "Amortização", "Prestação", "Saldo Final"};
+    	
+    	Object[][] data = null;
+    	
+    	/*Object[][] data = {
+				{"Kathy", "Smith", "Snowboarding", new Integer(5), new Boolean(false)},
+				{"John", "Doe", "Rowing", new Integer(3), new Boolean(true)},
+				{"Sue", "Black", "Knitting", new Integer(2), new Boolean(false)},
+				{"Jane", "White", "Speed reading", new Integer(20), new Boolean(true)},
+				{"Joe", "Brown", "Pool", new Integer(10), new Boolean(false)},
+				{"Kathy", "Smith", "Snowboarding", new Integer(5), new Boolean(false)},
+				{"John", "Doe", "Rowing", new Integer(3), new Boolean(true)},
+				{"Sue", "Black", "Knitting", new Integer(2), new Boolean(false)},
+				{"Jane", "White", "Speed reading", new Integer(20), new Boolean(true)},
+				{"Joe", "Brown", "Pool", new Integer(10), new Boolean(false)},
+				{"Kathy", "Smith", "Snowboarding", new Integer(5), new Boolean(false)},
+				{"John", "Doe", "Rowing", new Integer(3), new Boolean(true)},
+				{"Sue", "Black", "Knitting", new Integer(2), new Boolean(false)},
+				{"Jane", "White", "Speed reading", new Integer(20), new Boolean(true)},
+				{"Joe", "Brown", "Pool", new Integer(10), new Boolean(false)},
+				{"Kathy", "Smith", "Snowboarding", new Integer(5), new Boolean(false)},
+				{"John", "Doe", "Rowing", new Integer(3), new Boolean(true)},
+				{"Sue", "Black", "Knitting", new Integer(2), new Boolean(false)},
+				{"Jane", "White", "Speed reading", new Integer(20), new Boolean(true)},
+				{"Joe", "Brown", "Pool", new Integer(10), new Boolean(false)},
+				{"Kathy", "Smith", "Snowboarding", new Integer(5), new Boolean(false)},
+				{"John", "Doe", "Rowing", new Integer(3), new Boolean(true)},
+				{"Sue", "Black", "Knitting", new Integer(2), new Boolean(false)},
+				{"Jane", "White", "Speed reading", new Integer(20), new Boolean(true)},
+				{"Joe", "Brown", "Pool", new Integer(10), new Boolean(false)}
+		};*/
         
         DefaultTableModel model = new DefaultTableModel(data,header);
 

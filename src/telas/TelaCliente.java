@@ -90,13 +90,13 @@ public class TelaCliente {
 
 
 		textPesquisaCpf = new JTextField();
-		textPesquisaCpf =DefinirTiposCaracteresETamanho(11,  "1234567890");
+		/*textPesquisaCpf =DefinirTiposCaracteresETamanho(11,  "1234567890");
 		try{
 			javax.swing.text.MaskFormatter format_textField4 = new javax.swing.text.MaskFormatter("###.###.###-##");
 			textPesquisaCpf = new javax.swing.JFormattedTextField(format_textField4);
 		}catch (Exception e){
 			System.out.println(e.getMessage());
-		}		
+		}	*/	
 		textPesquisaCpf.setBounds(11, 56, 165, 23);
 		frame.getContentPane().add(textPesquisaCpf);
 		textPesquisaCpf.setColumns(10);
@@ -151,13 +151,13 @@ public class TelaCliente {
 		frame.getContentPane().add(lblCpf);
 
 		textCpf = new JTextField();
-		textCpf = DefinirTiposCaracteresETamanho(11,  "1234567890");
+		/*textCpf = DefinirTiposCaracteresETamanho(11,  "1234567890");
 		try{
 			javax.swing.text.MaskFormatter format_textField4 = new javax.swing.text.MaskFormatter("###.###.###-##");
 			textCpf = new javax.swing.JFormattedTextField(format_textField4);
 		}catch (Exception e){
 			System.out.println(e.getMessage());
-		}
+		}*/
 		textCpf.setBounds(710, 90, 151, 20);
 		frame.getContentPane().add(textCpf);
 		textCpf.setColumns(10);
@@ -176,13 +176,13 @@ public class TelaCliente {
 		frame.getContentPane().add(lblTelefone);
 
 		textTelefone = new JTextField();
-		textTelefone = DefinirTiposCaracteresETamanho(11,  "1234567890");
+		/*textTelefone = DefinirTiposCaracteresETamanho(11,  "1234567890");
 		try{
 			javax.swing.text.MaskFormatter format_textField4 = new javax.swing.text.MaskFormatter("(##)#####-####");
 			textTelefone = new javax.swing.JFormattedTextField(format_textField4);
 		}catch (Exception e){
 			System.out.println(e.getMessage());
-		}	
+		}	*/
 		textTelefone.setColumns(10);
 		textTelefone.setBounds(354, 149, 151, 20);
 		frame.getContentPane().add(textTelefone);
@@ -192,13 +192,13 @@ public class TelaCliente {
 		frame.getContentPane().add(lblCep);
 
 		textCep = new JTextField();
-		textCep = DefinirTiposCaracteresETamanho(8,  "1234567890");
+		/*textCep = DefinirTiposCaracteresETamanho(8,  "1234567890");
 		try{
 			javax.swing.text.MaskFormatter format_textField4 = new javax.swing.text.MaskFormatter("##.###-###");
 			textCep = new javax.swing.JFormattedTextField(format_textField4);
 		}catch (Exception e){
 			System.out.println(e.getMessage());
-		}		
+		}	*/	
 		textCep.setBounds(354, 179, 79, 20);
 		frame.getContentPane().add(textCep);
 		textCep.setColumns(10);
@@ -263,7 +263,7 @@ public class TelaCliente {
 		frame.getContentPane().add(lblEmail);
 
 		textEmail = new JTextField();
-		textEmail = DefinirTiposCaracteresETamanho(50,  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@._-1234567890");
+		/*textEmail = DefinirTiposCaracteresETamanho(50,  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@._-1234567890");*/
 		textEmail.setBounds(354, 397, 334, 20);
 		frame.getContentPane().add(textEmail);
 		textEmail.setColumns(10);
@@ -293,6 +293,36 @@ public class TelaCliente {
 		JButton btnNovaSimulacao = new JButton("Simular Empréstimo");
 		btnNovaSimulacao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
+				//falta completar metodo validador de dados
+				if(!textNome.getText().equals("")) {
+					Cliente cl = new Cliente();
+
+					cl.setNome(textNome.getText());
+					cl.setCpf(textCpf.getText());
+					cl.setTelefone(textTelefone.getText());
+					cl.setLogradouro(textEndereco.getText());
+					cl.setNumero(Integer.parseInt(textNum.getText()));
+					cl.setComplemento(textCompl.getText());		
+					cl.setCep(Integer.parseInt(textCep.getText()));
+					cl.setCidade(textCidade.getText());
+					cl.setBairro(textBairro.getText());
+					cl.setEmail(textEmail.getText());
+					cl.setRenda(Double.parseDouble(textRenda.getText()));
+					cl.setPrestacaoTerceiro(Double.parseDouble(textMargem.getText()));
+					cl.setEstado(comboBoxEstado.getSelectedItem().toString());
+					cl.setAtendente(at.getLogin());
+					
+					CtrlCliente.criarSimulacao(cl, at);
+					frame.dispose();
+				}else {
+					JOptionPane.showMessageDialog(null, "É necessário um cadastro de cliente para realizar uma simulação."
+													+ "\nPesquise um cliente ou cadastre um antes de continuar.");
+				}
+				
+				
+				
 			}
 		});
 
@@ -348,10 +378,6 @@ public class TelaCliente {
 		panel.setBounds(197, 56, 677, 503);
 		frame.getContentPane().add(panel);
 
-		JButton btnConsultar = new JButton("Consultar Quita\u00E7\u00E3o");
-		btnConsultar.setBounds(522, 577, 165, 23);
-		frame.getContentPane().add(btnConsultar);
-
 		JButton btnSair = new JButton("Sair do Sistema");
 		btnSair.setBounds(10, 577, 165, 23);
 		frame.getContentPane().add(btnSair);
@@ -400,9 +426,7 @@ public class TelaCliente {
 
 	private static void pesquisaCliente (String cpf) {
 
-		cpf = retiraMascara(String.valueOf(cpf));
-
-		Cliente c = CtrlCliente.preparaPesquisa(String.valueOf(cpf));
+		Cliente c = CtrlCliente.preparaPesquisa(cpf);
 		if(c!=null) {
 			cpfClienteAtual=c.getCpf();
 			preencheCampos(c);
@@ -414,10 +438,6 @@ public class TelaCliente {
 
 	private static void preencheCampos (Cliente c) {
 
-		//limpaCampos();
-		
-		System.out.println(c.getNome());
-		
 		textNome.setText(c.getNome());
 		textCpf.setText(c.getCpf());
 		textEndereco.setText(c.getLogradouro());
@@ -447,12 +467,12 @@ public class TelaCliente {
 		Cliente cl = new Cliente();
 
 		cl.setNome(textNome.getText());
-		cl.setCpf(retiraMascara(textCpf.getText()));
-		cl.setTelefone(retiraMascara(textTelefone.getText()));
+		cl.setCpf(textCpf.getText());
+		cl.setTelefone(textTelefone.getText());
 		cl.setLogradouro(textEndereco.getText());
 		cl.setNumero(Integer.parseInt(textNum.getText()));
 		cl.setComplemento(textCompl.getText());		
-		cl.setCep(Integer.parseInt(retiraMascara(textCep.getText())));
+		cl.setCep(Integer.parseInt(textCep.getText()));
 		cl.setCidade(textCidade.getText());
 		cl.setBairro(textBairro.getText());
 		cl.setEmail(textEmail.getText());
@@ -514,7 +534,7 @@ public class TelaCliente {
 	}
 
 
-	private static String retiraMascara(String texto) {
+	/*private static String retiraMascara(String texto) {
 
 		texto=texto.replace(".", "");
 		texto=texto.replace("-", "");
@@ -558,5 +578,5 @@ public class TelaCliente {
 			//retorno um campo de texto comum  
 			return new JTextField();
 		}//fim do catch
-	}//fim do mï¿½todo
+	}//fim do mï¿½todo*/
 }
