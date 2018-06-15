@@ -4,13 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class Cliente {
 
 	private String cpf;
 	private String nome;
 	private int	tipo;
+	private String telefone;
 	private double prestacaoTerceiro;
 	private double renda;
 	private String email;
@@ -23,51 +23,12 @@ public class Cliente {
 	private String estado;
 	private String atendente;
 
-	public static ArrayList <Cliente> retornaListaClientes(){
-
-		ArrayList <Cliente> cl = new ArrayList<>();
-
-		String comando = "SELECT nome, cpf, tipo FROM cliente ORDER BY nome";
-
-		Connection con;
-		Cliente c = new Cliente();
-
-		try {
-			con = ConectaBD.conectaAoBanco();			
-
-			PreparedStatement instrucao = con.prepareStatement(comando);
-			ResultSet rs = instrucao.executeQuery();
-
-			System.out.println("pesquisou");
-
-			if (rs.isBeforeFirst()) { 
-				while(rs.next()) {
-					c.setCpf(rs.getString("nome"));
-					c.setNome(rs.getString("cpf") );
-					c.setTipo(rs.getInt("tipo"));
-
-					cl.add(c);
-				}				
-			} 
-			con.close();		
-
-		} catch (SQLException | ClassNotFoundException e) {
-			System.out.println(e.getMessage());
-		}	
-
-
-		return cl;
-
-	}
-
 	public static boolean atualizaDados(Cliente c, String cpfAnterior) {
-
-
 
 		try {
 			Connection con = ConectaBD.conectaAoBanco();
 
-			String comando = "UPDATE cliente"
+			String comando = "UPDATE cliente "
 					+ "SET cpf = (?), "
 					+ "nome = (?), "
 					+ "tipo = (?), "
@@ -81,8 +42,9 @@ public class Cliente {
 					+ "bairro = (?), "
 					+ "cidade = (?), "
 					+ "estado = (?), "
-					+ "atendente = (?)"
-					+ "WHERE cpf = (?)";
+					+ "atendente = (?),"
+					+ "telefone = (?)"
+					+ " WHERE cpf = (?)";
 
 			PreparedStatement instrucao = con.prepareStatement(comando);
 
@@ -100,7 +62,10 @@ public class Cliente {
 			instrucao.setString(12, c.getCidade());
 			instrucao.setString(13, c.getEstado());
 			instrucao.setString(14, c.getAtendente());
-			instrucao.setString(15, cpfAnterior);
+			instrucao.setString(15, c.getTelefone());
+			instrucao.setString(16, cpfAnterior);
+			
+			System.out.println("query = "+instrucao);
 
 			instrucao.executeUpdate();
 
@@ -113,6 +78,37 @@ public class Cliente {
 
 		return true;		
 	}
+	
+	public static boolean deletaCliente(String documento){
+
+		boolean status=false;
+
+		String comando = "DELETE FROM cliente WHERE cpf = (?)";
+
+		Connection con;
+
+		try {
+			con = ConectaBD.conectaAoBanco();
+
+
+			PreparedStatement instrucao = con.prepareStatement(comando);
+
+			instrucao.setString(1, documento);
+
+
+			int affectedRows = instrucao.executeUpdate();
+
+			// check the affected rows 
+			if (affectedRows > 0) {             
+				status=true;
+			}
+
+		} catch (SQLException | ClassNotFoundException e) {
+			System.out.println(e.getMessage()+ " | SQLException");
+		}
+
+		return status;		
+	}	
 
 	public static boolean guardarDados(Cliente c){
 
@@ -122,23 +118,26 @@ public class Cliente {
 
 			Connection con = ConectaBD.conectaAoBanco();
 
-			String comando = "INSERT INTO cliente  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String comando = "INSERT INTO cliente VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement instrucao = con.prepareStatement(comando);
 
 			instrucao.setString(1, c.getCpf());
 			instrucao.setString(2, c.getNome());
 			instrucao.setInt(3, c.getTipo());
-			instrucao.setDouble(4,  c.getPrestacaoTerceiro());
-			instrucao.setDouble(5, c.getRenda());
-			instrucao.setString(6, c.getEmail());
-			instrucao.setInt(7, c.getCep());
-			instrucao.setString(8, c.getLogradouro());
-			instrucao.setInt(9, c.getNumero());
-			instrucao.setString(10, c.getComplemento());
-			instrucao.setString(11, c.getBairro());
-			instrucao.setString(12, c.getCidade());
-			instrucao.setString(13, c.getEstado());
-			instrucao.setString(14, c.getAtendente());
+			instrucao.setString(4, c.getTelefone());
+			instrucao.setDouble(5,  c.getPrestacaoTerceiro());
+			instrucao.setDouble(6, c.getRenda());
+			instrucao.setString(7, c.getEmail());
+			instrucao.setInt(8, c.getCep());
+			instrucao.setString(9, c.getLogradouro());
+			instrucao.setInt(10, c.getNumero());
+			instrucao.setString(11, c.getComplemento());
+			instrucao.setString(12, c.getBairro());
+			instrucao.setString(13, c.getCidade());
+			instrucao.setString(14, c.getEstado());
+			instrucao.setString(15, c.getAtendente());
+			
+			System.out.println(instrucao);
 
 			int affectedRows = instrucao.executeUpdate();
 
@@ -164,17 +163,16 @@ public class Cliente {
 		try {
 			con = ConectaBD.conectaAoBanco();
 
-
 			PreparedStatement instrucao = con.prepareStatement(comando);
 
 			instrucao.setString(1, documento);
-
+			
 			ResultSet rs = instrucao.executeQuery();
 
 			if (rs.isBeforeFirst()) { 
 				while(rs.next()) {
-					c.setCpf(rs.getString(1));
-					c.setNome(rs.getString("nome") );
+					c.setCpf(rs.getString("cpf"));
+					c.setNome(rs.getString("nome"));
 					c.setTipo(rs.getInt("tipo"));
 					c.setPrestacaoTerceiro(rs.getDouble("prestacaoTerceiro"));
 					c.setRenda(rs.getDouble("renda"));
@@ -187,6 +185,7 @@ public class Cliente {
 					c.setCidade(rs.getString("cidade"));
 					c.setEstado(rs.getString("estado"));
 					c.setAtendente(rs.getString("atendente"));
+					c.setTelefone(rs.getString("telefone"));
 				}				
 			} 
 			con.close();		
@@ -311,5 +310,16 @@ public class Cliente {
 		this.atendente = atendente;
 	}
 
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+	
+	
+
+	
 
 }

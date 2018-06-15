@@ -16,9 +16,7 @@ import javax.swing.JComboBox;
 import controles.CtrlCliente;
 import entidades.Atendente;
 import entidades.Cliente;
-import javax.swing.SwingConstants;
 import javax.swing.JPanel;
-
 
 public class TelaCliente {
 
@@ -30,6 +28,7 @@ public class TelaCliente {
 	private static JTextField textNome;
 	private static JTextField textCpf;
 	private static JTextField textEndereco;
+	private static JTextField textTelefone;
 	private static JTextField textCompl;
 	private static JTextField textCep;
 	private static JTextField textNum;
@@ -62,9 +61,11 @@ public class TelaCliente {
 	 */
 
 	public TelaCliente( ) {
+		//------------------------------------RETIRAR AO FINAL-----------------------
 		Atendente a = new Atendente();
 		a.setNome("Camila");
 		at=a;
+		//------------------------------------RETIRAR AO FINAL-----------------------
 		initialize();
 	}
 
@@ -77,13 +78,14 @@ public class TelaCliente {
 	 * Initialize the contents of the frame.
 	 */
 	private static void initialize() {
+		
 		frame = new JFrame("OhBanks - Cadastro de Clientes");
 		frame.setBounds(50, 50, 900, 650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		JLabel lblWelcome = new JLabel("Olá "+at.getNome()+ ", pesquise um cliente ou cadastre um novo ");
-		lblWelcome.setBounds(10, 29, 274, 18);
+		lblWelcome.setBounds(10, 29, 529, 18);
 		frame.getContentPane().add(lblWelcome);
 
 
@@ -95,33 +97,40 @@ public class TelaCliente {
 		}catch (Exception e){
 			System.out.println(e.getMessage());
 		}		
-
-		JButton btnCadastrarNovoCliente = new JButton("Cadastrar Cliente");
-		btnCadastrarNovoCliente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnCadastrarNovoCliente.setBounds(11, 146, 165, 23);
-		frame.getContentPane().add(btnCadastrarNovoCliente);
 		textPesquisaCpf.setBounds(11, 56, 165, 23);
 		frame.getContentPane().add(textPesquisaCpf);
 		textPesquisaCpf.setColumns(10);
 
 		JButton btnPesquisar = new JButton("Pesquisar Cliente");
 		btnPesquisar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				limpaCampos();
+			public void actionPerformed(ActionEvent arg0) {		
 
 				if(!textPesquisaCpf.getText().equals("")) {
 					pesquisaCliente(textPesquisaCpf.getText());
 				}else {
 					JOptionPane.showMessageDialog(null, "Digite um CPF");
+					limpaCampos();
 				}
+				
 			}
 		});
 		btnPesquisar.setBounds(11, 90, 165, 23);
 		frame.getContentPane().add(btnPesquisar);
+
+		JButton btnCadastrarNovoCliente = new JButton("Cadastrar Cliente");
+		btnCadastrarNovoCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				limpaCampos();
+				cpfClienteAtual=null;
+
+				JOptionPane.showMessageDialog(null, "Preencha os campos da página com as informações do cliente."
+						+ "\nAtenção aos campos obrigatórios.");
+
+			}
+		});
+		btnCadastrarNovoCliente.setBounds(11, 146, 165, 23);
+		frame.getContentPane().add(btnCadastrarNovoCliente);
 
 		JSeparator separator = new JSeparator(JSeparator.VERTICAL);
 		separator.setBounds(186, 58, 2, 544);
@@ -138,7 +147,7 @@ public class TelaCliente {
 		frame.getContentPane().add(comboBoxTipo);
 
 		JLabel lblCpf = new JLabel("CPF*");
-		lblCpf.setBounds(216, 124, 126, 14);
+		lblCpf.setBounds(619, 93, 79, 14);
 		frame.getContentPane().add(lblCpf);
 
 		textCpf = new JTextField();
@@ -149,18 +158,34 @@ public class TelaCliente {
 		}catch (Exception e){
 			System.out.println(e.getMessage());
 		}
-		textCpf.setBounds(354, 121, 208, 20);
+		textCpf.setBounds(710, 90, 151, 20);
 		frame.getContentPane().add(textCpf);
 		textCpf.setColumns(10);
 
 		JLabel lblNome = new JLabel("Nome*");
-		lblNome.setBounds(216, 154, 128, 14);
+		lblNome.setBounds(216, 124, 128, 14);
 		frame.getContentPane().add(lblNome);
 
 		textNome = new JTextField();
-		textNome.setBounds(354, 148, 507, 20);
+		textNome.setBounds(354, 118, 507, 20);
 		frame.getContentPane().add(textNome);
 		textNome.setColumns(10);
+
+		JLabel lblTelefone = new JLabel("Telefone");
+		lblTelefone.setBounds(216, 152, 126, 14);
+		frame.getContentPane().add(lblTelefone);
+
+		textTelefone = new JTextField();
+		textTelefone = DefinirTiposCaracteresETamanho(11,  "1234567890");
+		try{
+			javax.swing.text.MaskFormatter format_textField4 = new javax.swing.text.MaskFormatter("(##)#####-####");
+			textTelefone = new javax.swing.JFormattedTextField(format_textField4);
+		}catch (Exception e){
+			System.out.println(e.getMessage());
+		}	
+		textTelefone.setColumns(10);
+		textTelefone.setBounds(354, 149, 151, 20);
+		frame.getContentPane().add(textTelefone);
 
 		JLabel lblCep = new JLabel("CEP*");
 		lblCep.setBounds(216, 182, 128, 14);
@@ -214,6 +239,15 @@ public class TelaCliente {
 		frame.getContentPane().add(textBairro);
 		textBairro.setColumns(10);
 
+		JLabel lblCidade = new JLabel("Cidade*");
+		lblCidade.setBounds(216, 337, 128, 14);
+		frame.getContentPane().add(lblCidade);
+
+		textCidade = new JTextField();
+		textCidade.setBounds(354, 334, 333, 20);
+		frame.getContentPane().add(textCidade);
+		textCidade.setColumns(10);
+
 		JLabel lblEstado = new JLabel("Estado*");
 		lblEstado.setBounds(216, 369, 128, 14);
 		frame.getContentPane().add(lblEstado);
@@ -224,21 +258,12 @@ public class TelaCliente {
 		comboBoxEstado.setBounds(354, 366, 105, 20);
 		frame.getContentPane().add(comboBoxEstado);
 
-		JLabel lblCidade = new JLabel("Cidade*");
-		lblCidade.setBounds(216, 337, 128, 14);
-		frame.getContentPane().add(lblCidade);
-
-		textCidade = new JTextField();
-		textCidade.setBounds(354, 334, 333, 20);
-		frame.getContentPane().add(textCidade);
-		textCidade.setColumns(10);
-
 		JLabel lblEmail = new JLabel("E-mail");
 		lblEmail.setBounds(216, 400, 128, 14);
 		frame.getContentPane().add(lblEmail);
 
 		textEmail = new JTextField();
-		//textEmail = DefinirTiposCaracteresETamanho(40,  "abcdefghijklmnopqrstuvwxyz@._-1234567890");
+		textEmail = DefinirTiposCaracteresETamanho(50,  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@._-1234567890");
 		textEmail.setBounds(354, 397, 334, 20);
 		frame.getContentPane().add(textEmail);
 		textEmail.setColumns(10);
@@ -264,139 +289,80 @@ public class TelaCliente {
 		JLabel lblCamposObr = new JLabel("Atenção! Os campos com asterisco (*) são obrigatórios.");
 		lblCamposObr.setBounds(216, 499, 354, 14);
 		frame.getContentPane().add(lblCamposObr);
-		
+
 		JButton btnNovaSimulacao = new JButton("Simular Empréstimo");
 		btnNovaSimulacao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNovaSimulacao.setBounds(709, 577, 165, 23);
-		frame.getContentPane().add(btnNovaSimulacao);
-		
+
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				cadastraDados();
+
+			}
+		});
 		btnSalvar.setBounds(750, 524, 111, 23);
 		frame.getContentPane().add(btnSalvar);
-		
+
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				int resposta = JOptionPane.showConfirmDialog(null, "Ao cancelar, as alterações no cadastro de Cliente não serão"
+						+ " armazenadas e os campos da tela serão limpos.\nDeseja continuar?");
+
+				if(resposta==0) {
+					limpaCampos();
+				}
+			}
+		});
 		btnCancelar.setBounds(628, 524, 111, 23);
 		frame.getContentPane().add(btnCancelar);
-		
+
 		JButton btnApagar = new JButton("Apagar");
+		btnApagar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if(cpfClienteAtual==null){
+					JOptionPane.showMessageDialog(null, "Não há registro de atual.\nPesquise o cliente que deseja excluir.");
+				}else {
+					int resposta = JOptionPane.showConfirmDialog(null, "Você está prestes a apagar o registro de um cliente, essa ação é irreversível."
+							+ "\nDeseja continuar?");
+
+					if(resposta==0) {
+						apagarCliente();
+					}
+				}
+			}
+		});
 		btnApagar.setBounds(505, 524, 111, 23);
 		frame.getContentPane().add(btnApagar);
-		
+		btnNovaSimulacao.setBounds(709, 577, 165, 23);
+		frame.getContentPane().add(btnNovaSimulacao);
+
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createTitledBorder("CADASTRO DE CLIENTE")); 
 		panel.setBounds(197, 56, 677, 503);
 		frame.getContentPane().add(panel);
-		
-		JButton btnSair = new JButton("Sair do Sistema");
-		btnSair.setBounds(10, 577, 165, 23);
-		frame.getContentPane().add(btnSair);
-		
+
 		JButton btnConsultar = new JButton("Consultar Quita\u00E7\u00E3o");
 		btnConsultar.setBounds(522, 577, 165, 23);
 		frame.getContentPane().add(btnConsultar);
 
-	}
-
-	private static String pesquisaCliente (String cpf) {
-
-		cpf = retiraMascara(cpf);
-
-		Cliente c = CtrlCliente.preparaPesquisa(String.valueOf(cpf));
-		if(c.getCpf()!=null) {
-			preencheCampos(c);
-			cpfClienteAtual=cpf;
-			return c.getNome();
-		}else {
-			JOptionPane.showMessageDialog(null, "Cliente não encontrado.\nFaça uma nova pesquisa ou cadastre um novo Cliente");
-			return "";
-		}
-	}
-
-	private static void preencheCampos (Cliente c) {
-
-		textNome.setText(c.getNome());
-		textCpf.setText(c.getCpf());
-		textEndereco.setText(c.getLogradouro());
-		textNum.setText(String.valueOf(c.getNumero()));
-		textCompl.setText(c.getComplemento());
-		textCep.setText(String.valueOf(c.getCep()));
-		textCidade.setText(c.getCidade());
-		textBairro.setText(c.getBairro());
-		textEmail.setText(c.getEmail());
-		textRenda.setText(String.valueOf(c.getRenda()));
-		textMargem.setText(String.valueOf(c.getPrestacaoTerceiro()));
-		if(c.getTipo()== 1) {
-			comboBoxTipo.getEditor().setItem("1 - Funcionário Público");
-		}else if(c.getTipo() == 2) {
-			comboBoxTipo.getEditor().setItem("2 - Aposentado"); 
-		}else {
-			comboBoxTipo.getEditor().setItem("3 - Pensionista");
-		}
-		comboBoxEstado.getEditor().setItem(c.getEstado());
+		JButton btnSair = new JButton("Sair do Sistema");
+		btnSair.setBounds(10, 577, 165, 23);
+		frame.getContentPane().add(btnSair);
 		
 	}
 
-	private static void cadastraDados(){
 
+	/*private static String validaCampos() {
 
-		Cliente cl = new Cliente();
-
-		cl.setNome(textNome.getText());
-		cl.setCpf(textCpf.getText());
-		cl.setLogradouro(textEndereco.getText());
-		cl.setNumero(Integer.parseInt(textNum.getText()));
-		cl.setComplemento(textCompl.getText());
-		cl.setCep(Integer.parseInt(textCep.getText()));
-		cl.setCidade(textCidade.getText());
-		cl.setBairro(textBairro.getText());
-		cl.setEmail(textEmail.getText());
-		cl.setRenda(Double.parseDouble(textRenda.getText()));
-		cl.setPrestacaoTerceiro(Double.parseDouble(textMargem.getText()));
-		
-		
-		if(comboBoxTipo.getSelectedItem().toString().equals("1 - Funcionário Público")) {
-			cl.setTipo(1);
-		}else if(comboBoxTipo.getSelectedItem().toString().equals("2 - Aposentado")) {
-			cl.setTipo(2);
-		}else {
-			cl.setTipo(3);
-		}
-
-		boolean b = CtrlCliente.preparaCadastro(cl);
-		
-		if(b) {
-			JOptionPane.showMessageDialog(null, "Cliente Cadastrado com sucesso!");
-		}else {
-			JOptionPane.showMessageDialog(null, "Não foi possível cadastrar o cliente, tente novamente.");
-		}
-
-	}
-	
-	private static void limpaCampos() {
-		
-		textNome.setText(null);
-		textCpf.setText(null);
-		textEndereco.setText(null);
-		textNum.setText(null);
-		textCompl.setText(null);
-		textCep.setText(null);
-		textCidade.setText(null);
-		textBairro.setText(null);
-		textEmail.setText(null);
-		textRenda.setText(null);
-		textMargem.setText(null);
-		comboBoxTipo.getEditor().setItem(null);
-		comboBoxEstado.getEditor().setItem(null);
-		
-	}
-	
-	private static String validaCampos() {
-		
 		String mensagem = "";
-		
+
 		if(textNome.getText()==null) {
 			mensagem += "\nNome do Cliente";
 		}
@@ -418,14 +384,142 @@ public class TelaCliente {
 		textMargem.setText(null);
 		comboBoxTipo.getEditor().setItem(null);
 		comboBoxEstado.getEditor().setItem(null);		
-		
+
 		return mensagem;
+	}*/
+
+	private static void apagarCliente() {		
+
+		if(CtrlCliente.preparaDelete(cpfClienteAtual)) {
+			JOptionPane.showMessageDialog(null, "Cadastro de cliente apagado!");
+			limpaCampos();
+		}else {
+			JOptionPane.showMessageDialog(null, "Não foi possível apagar o cadatro de cliente, tente novamente.");
+		}
 	}
+
+	private static void pesquisaCliente (String cpf) {
+
+		cpf = retiraMascara(String.valueOf(cpf));
+
+		Cliente c = CtrlCliente.preparaPesquisa(String.valueOf(cpf));
+		if(c!=null) {
+			cpfClienteAtual=c.getCpf();
+			preencheCampos(c);
+		}else {
+			JOptionPane.showMessageDialog(null, "Cliente não encontrado.\nFaça uma nova pesquisa ou cadastre um novo Cliente");
+			limpaCampos();
+		}
+	}
+
+	private static void preencheCampos (Cliente c) {
+
+		//limpaCampos();
+		
+		System.out.println(c.getNome());
+		
+		textNome.setText(c.getNome());
+		textCpf.setText(c.getCpf());
+		textEndereco.setText(c.getLogradouro());
+		textTelefone.setText(c.getTelefone());
+		textNum.setText(String.valueOf(c.getNumero()));
+		textCompl.setText(c.getComplemento());
+		textCep.setText(String.valueOf(c.getCep()));
+		textCidade.setText(c.getCidade());
+		textBairro.setText(c.getBairro());
+		textEmail.setText(c.getEmail());
+		textRenda.setText(String.valueOf(c.getRenda()));
+		textMargem.setText(String.valueOf(c.getPrestacaoTerceiro()));
+		if(c.getTipo() == 1) {
+			comboBoxTipo.setSelectedItem("1 - Funcionário Público");
+		}else if(c.getTipo() == 2) {
+			comboBoxTipo.setSelectedItem("2 - Aposentado"); 
+		}else {
+			comboBoxTipo.setSelectedItem("3 - Pensionista");
+		}
+		comboBoxEstado.setSelectedItem(c.getEstado());
+
+	}
+
+	private static void cadastraDados(){
+
+
+		Cliente cl = new Cliente();
+
+		cl.setNome(textNome.getText());
+		cl.setCpf(retiraMascara(textCpf.getText()));
+		cl.setTelefone(retiraMascara(textTelefone.getText()));
+		cl.setLogradouro(textEndereco.getText());
+		cl.setNumero(Integer.parseInt(textNum.getText()));
+		cl.setComplemento(textCompl.getText());		
+		cl.setCep(Integer.parseInt(retiraMascara(textCep.getText())));
+		cl.setCidade(textCidade.getText());
+		cl.setBairro(textBairro.getText());
+		cl.setEmail(textEmail.getText());
+		cl.setRenda(Double.parseDouble(textRenda.getText()));
+		cl.setPrestacaoTerceiro(Double.parseDouble(textMargem.getText()));
+		cl.setEstado(comboBoxEstado.getSelectedItem().toString());
+
+
+		if(comboBoxTipo.getSelectedItem().toString().equals("1 - Funcionário Público")) {
+			cl.setTipo(1);
+		}else if(comboBoxTipo.getSelectedItem().toString().equals("2 - Aposentado")) {
+			cl.setTipo(2);
+		}else {
+			cl.setTipo(3);
+		}
+
+
+		if(cpfClienteAtual==null) {
+			boolean b = CtrlCliente.preparaCadastro(cl);
+
+			if(b) {
+				JOptionPane.showMessageDialog(null, "Cliente Cadastrado com sucesso!");
+			}else {
+				JOptionPane.showMessageDialog(null, "Não foi possível cadastrar o cliente, tente novamente.");
+			}
+
+		}else {
+
+			boolean b = CtrlCliente.preparaAlteracao(cl, cpfClienteAtual);
+
+			if(b) {
+				JOptionPane.showMessageDialog(null, "Cliente Alterado com sucesso!");
+			}else {
+				JOptionPane.showMessageDialog(null, "Não foi possível cadastrar o cliente, tente novamente.");
+			}
+		}
+
+	}
+
+	private static void limpaCampos() {
+
+		textPesquisaCpf.setText(null);
+		textNome.setText(null);
+		textCpf.setText(null);
+		textTelefone.setText(null);
+		textEndereco.setText(null);
+		textNum.setText(null);
+		textCompl.setText(null);
+		textCep.setText(null);
+		textCidade.setText(null);
+		textBairro.setText(null);
+		textEmail.setText(null);
+		textRenda.setText(null);
+		textMargem.setText(null);
+		comboBoxTipo.setSelectedItem("1 - Funcionário Público");
+		comboBoxEstado.setSelectedItem("GO");;
+		cpfClienteAtual=null;
+
+	}
+
 
 	private static String retiraMascara(String texto) {
 
 		texto=texto.replace(".", "");
-		texto=texto.replace("-", "");		
+		texto=texto.replace("-", "");
+		texto=texto.replace("(", "");
+		texto=texto.replace(")", "");
 
 		return texto;
 	}

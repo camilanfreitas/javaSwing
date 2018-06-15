@@ -24,16 +24,6 @@ public class CtrlCliente {
 
 		return b;
 	}
-	
-	public static ArrayList<Cliente> buscaClientes(){
-		
-		ArrayList <Cliente> cl = new ArrayList<>();
-		
-		cl = Cliente.retornaListaClientes();
-		
-		return cl;
-		
-	}
 
 	public static boolean preparaCadastro(Cliente cl){
 
@@ -50,6 +40,14 @@ public class CtrlCliente {
 
 		return c;
 
+	}
+	
+	public static boolean preparaDelete(String documento) {		
+		
+		boolean b = Cliente.deletaCliente(documento);
+		
+		return b;
+		
 	}
 
 	private static Cliente insereUser(Cliente c) {

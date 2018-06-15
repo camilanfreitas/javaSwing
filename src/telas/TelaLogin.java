@@ -85,6 +85,7 @@ public class TelaLogin {
 					}else {
 						JOptionPane.showMessageDialog(null, "Digite sua senha");
 					}
+					textSenha.setText(null);
 				}
 
 			}
@@ -153,14 +154,18 @@ public class TelaLogin {
 			frame.dispose();
 		}else {
 			JOptionPane.showMessageDialog(null, "O Login falhou, tente novamente ou cadastre um novo usuário");
+			textSenha.setText(null);
+			textUsuario.setText(null);
 		}
 	}
 
-	public static String getTextUsuario() {
+	private static String getTextUsuario() {
 		return textUsuario.getText();
 	}
 
-	public static String getTextSenha() {
+	private static String getTextSenha() {
 		return String.valueOf(textSenha.getPassword());
 	}
+	
+	
 }

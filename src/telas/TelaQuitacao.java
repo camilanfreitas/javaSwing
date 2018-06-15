@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 public class TelaQuitacao {
 
 	private static JFrame frame;
-	
+
 	private static Cliente cl;
 	private static JTextField textNome;
 	private static JTextField textCpf;
@@ -156,45 +156,44 @@ public class TelaQuitacao {
 		JButton btnSair = new JButton("Sair do Sistema");
 		btnSair.setBounds(10, 577, 165, 23);
 		frame.getContentPane().add(btnSair);
-		
+
 		Emprestimo e = new Emprestimo();
-		
+
 		table = criarTabela(e, 790, 220);
 		table.setEnabled(false);
 		table.setBounds(36, 252, 811, 250);
 		frame.getContentPane().add(table);
-		
-		
-		
+
+
 		/*JPanel panelEmprest = new JPanel();
 		panelEmprest.setBorder(BorderFactory.createTitledBorder("EMPRESTIMO")); 
 		panelEmprest.setBounds(10, 214, 864, 338);
 		frame.getContentPane().add(panelEmprest);*/
 
 	}
-	
+
 	private static Tabela criarTabela (Emprestimo e, int width, int height){
-		
+
 		Tabela t = new Tabela();
-		
+
 		Object[][] data = {
-			    {"Kathy", "Smith",
-			     "Snowboarding", new Integer(5), new Boolean(false)},
-			    {"John", "Doe",
-			     "Rowing", new Integer(3), new Boolean(true)},
-			    {"Sue", "Black",
-			     "Knitting", new Integer(2), new Boolean(false)},
-			    {"Jane", "White",
-			     "Speed reading", new Integer(20), new Boolean(true)},
-			    {"Joe", "Brown",
-			     "Pool", new Integer(10), new Boolean(false)}
-			};
-		
+				{"Kathy", "Smith",
+					"Snowboarding", new Integer(5), new Boolean(false)},
+				{"John", "Doe",
+						"Rowing", new Integer(3), new Boolean(true)},
+				{"Sue", "Black",
+							"Knitting", new Integer(2), new Boolean(false)},
+				{"Jane", "White",
+								"Speed reading", new Integer(20), new Boolean(true)},
+				{"Joe", "Brown",
+									"Pool", new Integer(10), new Boolean(false)}
+		};
+
 		t = new Tabela (data, width, height);
-		
-		
-		
+
+
+
 		return t;
-		
+
 	}
 }
