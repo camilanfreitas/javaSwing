@@ -112,5 +112,5 @@ INSERT INTO atendente VALUES ('admin', 'admin', 'admin');
 
 --INSERE UM CLIENTE INICIAL
 INSERT INTO cliente
-VALUES('02615735195', 'Camila Freitas', 3, 629000, null, 4500.6, 'camilanfreitas@yahoo.com.br', 74865280,
-	'Alameda Plínio', 0, 'Qd. 02', 'Jd. Vitória', 'Goiânia', 'GO', 'admin');
+VALUES('191', 'Camila Freitas', 3, 629000, null, 100.6, 'camila@a.com.br', 74000000,
+	'Rua 1', 0, 'Qd. 02', 'Jardim', 'Goiânia', 'GO', 'admin');
